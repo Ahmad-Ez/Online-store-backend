@@ -25,6 +25,7 @@ export type UserHashed = {
 };
 
 export class UserClass {
+  // method to get all users
   async index(): Promise<UserHashed[]> {
     try {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -42,6 +43,7 @@ export class UserClass {
     }
   }
 
+  // method to show a single user based on its id
   async show(id: number): Promise<UserHashed> {
     try {
       const sql = 'SELECT * FROM users WHERE id=($1)';
@@ -59,6 +61,7 @@ export class UserClass {
     }
   }
 
+  // method to create a new user
   async create(u: User): Promise<UserHashed> {
     try {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -95,6 +98,7 @@ export class UserClass {
     }
   }
 
+  // method to delete a user given his/her username
   async delete(user_name: string): Promise<UserHashed> {
     try {
       const sql = 'DELETE FROM users WHERE user_name=($1)';
@@ -111,6 +115,7 @@ export class UserClass {
     }
   }
 
+  // a method to authenticate a user for an operation requiring elevated access
   async authenticate(user_name: string, password: string): Promise<User | null> {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

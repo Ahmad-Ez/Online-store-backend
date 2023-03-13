@@ -4,11 +4,13 @@ import verifyAuthToken from '../utils/auth';
 
 const dashboard = new DashboardQueries();
 
+// Current order with the status 'active' for a given user
 const user_active_order = async (req: Request, res: Response) => {
   const order = await dashboard.user_active_order(parseInt(req.params.id));
   res.json(order);
 };
 
+// Completed orders with the status 'complete' for a given user
 const user_completed_orders = async (req: Request, res: Response) => {
   const order = await dashboard.user_completed_orders(parseInt(req.params.id));
   res.json(order);

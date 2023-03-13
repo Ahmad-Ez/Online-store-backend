@@ -50,13 +50,30 @@ It is about creating the RESTful API routes and associated PSQL database(s) and 
   Checks for conflicting rules between lint and prettier.
 
 ## Usage
-First update the .env file with the appropriate info, especially the `ADMIN_USER`, `ADMIN_PASS` & `PG_ROOT_DB` fields, to allow the creation of the other user and databases programmatically.
+First create and update a .env file with the following info: 
+```
+PG_ROOT_USER=
+PG_ROOT_PASS=
+PG_ROOT_DB=
+POSTGRES_HOST=127.0.0.1 (default)
+POSTGRES_PORT=5432 (default)
+PG_STORE_DB=
+PG_STORE_TEST_DB=
+PG_STORE_USER=
+PG_STORE_PASSWORD=
+ENV=dev (default), or test
+BCRYPT_PASSWORD=
+SALT_ROUNDS= [number]
+TOKEN_SECRET=
+```
+
+`ADMIN_USER`, `ADMIN_PASS` & `PG_ROOT_DB` fields are especially important to allow the creation of the other user and databases programmatically.
 
 Then run the package.json script called `first_run` to create the project databases and tables, then spin the server in watch mode.
 
 If needed the entire project can be reset by running the `drop_dbs` script, deleting the `./dist` folder, then running the `first_run` script.
 
-Once the server is up the API can be accessed via the routes descriped in the `REQUIREMENTS.md`. e.g. [GET] `http://localhost:3000/products` 
+Once the server is up the API can be accessed via the routes descriped in the [REQUIREMENTS.md](REQUIREMENTS.md) e.g. [GET] [http://localhost:3000/products](http://localhost:3000/products)
 
 ## Dependencies
 
