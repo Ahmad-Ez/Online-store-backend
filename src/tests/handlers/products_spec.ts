@@ -2,6 +2,7 @@ import supertest from 'supertest';
 import app from '../../server';
 import jwt from 'jsonwebtoken';
 import { User } from '../../models/user';
+import { Product } from '../../models/product';
 import config from '../../config/config';
 import client from '../../database';
 
@@ -9,17 +10,23 @@ const { jwt_secret } = config;
 
 const request = supertest(app);
 
-const user: User = {
-  first_name: 'route_f_name',
-  last_name: 'route_l_name',
-  user_name: 'route_u_name',
-  password: 'route_pass',
+const u: User = {
+  first_name: 'u_f_name',
+  last_name: 'u_l_name',
+  user_name: 'u_u_name',
+  password: 'u_pass',
 };
 
-const token = jwt.sign(user, jwt_secret);
+const p: Product = {
+  product_name: 'apples',
+  price: 40,
+  category: 'fruit',
+};
+
+const token = jwt.sign(u, jwt_secret);
 const auth_header = { Authorization: `Bearer ${token}` };
 
-describe('User Routes:', () => {
+describe('Product Routes:', () => {
   beforeAll(async () => {
     // Reset the tables in the test database
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -36,28 +43,33 @@ describe('User Routes:', () => {
     conn.release();
   });
 
-  it('should not create a user with out token verification', async () => {
-    const response = await request.post('/users').send(user);
+  it('should not create a product with out token verification', async () => {
+    const response = await request.post('/products').send(p);
     expect(response.status).toBe(401);
   });
 
-  it('should create a user via, POST /users', async () => {
-    const response = await request.post('/users').send(user).set(auth_header);
+  it('should create a product via, POST /products', async () => {
+    const response = await request.post('/products').send(p).set(auth_header);
     expect(response.status).toBe(200);
   });
 
-  it('should index all users via, GET /users', async () => {
-    const response = await request.get('/users').set(auth_header);
+  it('should index all products via, GET /products', async () => {
+    const response = await request.get('/products');
     expect(response.status).toBe(200);
   });
 
-  it('should show a user via, GET /users/:id', async () => {
-    const response = await request.get('/users/route_u_name').set(auth_header);
+  it('should show a product via, GET /products/id/:id', async () => {
+    const response = await request.get('/products/id/1');
     expect(response.status).toBe(200);
   });
 
-  it('should delete a user via, DELETE /users', async () => {
-    const response = await request.delete('/users').send({ id: 1 }).set(auth_header);
+  it('should show a product category via, GET /products/cat/:category', async () => {
+    const response = await request.get(`/products/cat/${p.category}`);
+    expect(response.status).toBe(200);
+  });
+
+  it('should delete a product via, DELETE /products', async () => {
+    const response = await request.delete('/products').send({ id: 1 }).set(auth_header);
     expect(response.status).toBe(200);
   });
 });

@@ -2,9 +2,9 @@
 // @ts-ignore
 import client from '../database';
 import bcrypt from 'bcrypt';
-import config from '../config/config';
 
-const { pepper, salt_rounds } = config;
+const pepper = process.env.BCRYPT_PASSWORD;
+const salt_rounds: string = <string>process.env.SALT_ROUNDS;
 
 // contains raw input from the user
 export type User = {
@@ -60,8 +60,8 @@ export class UserClass {
   // method to create a new user
   async create(u: User): Promise<UserHashed> {
     try {
-      const user_store = new UserClass();
-      const user_exists = await user_store.show(u.user_name);
+      const user_store = new UserClass()
+      const user_exists = await user_store.show(u.user_name)
 
       if (user_exists) {
         throw new Error('username already exists, pick a different username');
@@ -74,14 +74,15 @@ export class UserClass {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const conn = await client.connect();
-      const pass_hash = bcrypt.hashSync(u.password + pepper, salt_rounds);
+      const pass_hash = bcrypt.hashSync(u.password + pepper, parseInt(salt_rounds));
       const sql =
         'INSERT INTO users (first_name, last_name, user_name, password_digest) VALUES($1, $2, $3, $4) RETURNING *';
 
       const result = await conn.query(sql, [u.first_name, u.last_name, u.user_name, pass_hash]);
+      const user = result.rows[0];
       conn.release();
 
-      return result.rows[0];
+      return user;
     } catch (err) {
       throw new Error(`unable create user (${u.user_name} ): ${err}`);
     }
@@ -107,12 +108,17 @@ export class UserClass {
   // a method to authenticate a user for an operation requiring elevated access
   async authenticate(user_name: string, password: string): Promise<UserHashed> {
     try {
-      const user_store = new UserClass();
-      const hashed_user = await user_store.show(user_name);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const conn = await client.connect();
+      const sql = 'SELECT password_digest FROM users WHERE user_name=($1)';
+      const result = await conn.query(sql, [user_name]);
 
-      if (!hashed_user) {
+      if (!result.rows.length) {
         throw new Error(`User ${user_name} has no records. Sign up!`);
       }
+      const hashed_user: UserHashed = result.rows[0];
+      console.log('hashed_user: ' + hashed_user);
 
       if (!bcrypt.compareSync(password + pepper, hashed_user.password_digest)) {
         throw new Error('Wrong username or password!');

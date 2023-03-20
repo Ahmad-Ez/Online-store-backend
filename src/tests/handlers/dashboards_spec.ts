@@ -1,21 +1,24 @@
-import { DashboardQueries } from '../../services/dashboard';
-import { OrderClass, Order } from '../../models/order';
+import supertest from 'supertest';
+import app from '../../server';
+import jwt from 'jsonwebtoken';
+import { Order, OrderClass } from '../../models/order';
 import { User, UserHashed, UserClass } from '../../models/user';
 import bcrypt from 'bcrypt';
 import config from '../../config/config';
 import client from '../../database';
 
-const { pepper } = config;
+const { jwt_secret, pepper } = config;
 
-const dash_store = new DashboardQueries();
 const order_store = new OrderClass();
 const user_store = new UserClass();
 
+const request = supertest(app);
+
 const u: User = {
-  first_name: 'mock_f_name',
-  last_name: 'mock_l_name',
-  user_name: 'mock_u_name',
-  password: 'mock_pass',
+  first_name: 'u_f_name',
+  last_name: 'u_l_name',
+  user_name: 'u_u_name',
+  password: 'u_pass',
 };
 
 let u_hashed: UserHashed;
@@ -55,7 +58,10 @@ const compare_u2uh = (u: User, uh: UserHashed): boolean => {
   return same;
 };
 
-describe('Dashboard Service', () => {
+const token = jwt.sign(u, jwt_secret);
+const auth_header = { Authorization: `Bearer ${token}` };
+
+describe('Dashboard Routes:', () => {
   beforeAll(async () => {
     // Reset the tables in the test database
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -72,14 +78,6 @@ describe('Dashboard Service', () => {
     conn.release();
   });
 
-  it('should have a user_active_order method', () => {
-    expect(dash_store.user_active_order).toBeDefined();
-  });
-
-  it('should have a user_completed_orders method', () => {
-    expect(dash_store.user_completed_orders).toBeDefined();
-  });
-
   it('adds a mock user first for testing', async () => {
     await user_store.create(u);
     u_hashed = await user_store.authenticate(u.user_name, u.password);
@@ -91,19 +89,29 @@ describe('Dashboard Service', () => {
     expect(result).toEqual(active_out);
   });
 
-  it('Creates a complete order first for testing', async () => {
+  it('creates a complete order first for testing', async () => {
     const result = await order_store.create(complete_in);
     expect(result).toEqual(complete_out);
   });
 
-  it('user_active_order method should return the active order', async () => {
-    const result = await dash_store.user_active_order(1);
-    expect(result).toEqual([active_out]);
+  it('should not return the active order for a given user without token verification', async () => {
+    const response = await request.get('/user_active_order/1');
+    expect(response.status).toBe(401);
   });
 
-  it('user_completed_orders method should return the completed order', async () => {
-    const result = await dash_store.user_completed_orders(1);
-    expect(result).toEqual([complete_out]);
+  it('should return the active order for a given user via: GET /user_active_order/:id', async () => {
+    const response = await request.get('/user_active_order/1').set(auth_header);
+    expect(response.status).toBe(200);
+  });
+
+  it('should not return the completed order for a given user without token verification', async () => {
+    const response = await request.get('/user_completed_orders/1');
+    expect(response.status).toBe(401);
+  });
+
+  it('should return the completed order for a given user via: GET /user_completed_orders/:id', async () => {
+    const response = await request.get('/user_completed_orders/1').set(auth_header);
+    expect(response.status).toBe(200);
   });
 
   it('deletes the mock orders', async () => {

@@ -11,6 +11,7 @@ const {
   env,
 } = config;
 
+// console.log(JSON.stringify(process.env, null, "  "));
 let current_db: string;
 
 if (env == 'test') {

@@ -15,9 +15,14 @@
     "create_dbs": "npx ts-node src/utils/create_dbs.ts",
     "drop_dbs": "npx ts-node src/utils/drop_dbs.ts",
     "lint": "eslint src/**/*.ts",
-    "lint_fix": "eslint --fix src/**/*.ts",
+    "lint:fix": "eslint --fix src/**/*.ts",
     "prettier": "prettier --config .prettierrc --write src/**/*.ts ",
-    "checkrules": "npx eslint-config-prettier src/server.ts"
+    "checkrules": "npx eslint-config-prettier src/server.ts",
+    "test_short": "set ENV=test&& db-migrate --env test up && jasmine-ts && db-migrate db:drop test",
+    "test3": "set ENV=test&& jasmine-ts src/tests/**/*[sS]pec.ts",
+    "test1": "set ENV=test&& set NODE_OPTIONS=--loader=ts-node/esm && jasmine",
+    "trial": "set ENV=dev&& npx ts-node src/trial.ts",
+    "trial2": "set ENV=dev&& npx ts-node src/trial2.ts"
   },
   "author": "Udacity",
   "license": "ISC",

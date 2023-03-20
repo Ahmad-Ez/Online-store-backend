@@ -16,46 +16,37 @@ It is about creating the RESTful API routes and associated PSQL database(s) and 
 
 ## Scripts
 
-  - ```"build": "npx tsc"```  
-  Builds the JS files to the ./dist folder
-
-  - ```"start": "npm run build && node dist/server.js"```  
-  Starts the transpiled server.js in the dist folder
-
-  - ```"watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\""```   
-  Transpiles the .ts files in the src folder, then runs the server.js, watches the .ts files for any change, then restarts the server reflecting the new changes.
-
-  - ```"first_run": "npm run create_dbs && db-migrate up && npm run watch"```  
+  - ```first_run: "npm run create_dbs && db-migrate up && npm run watch"```  
   The entry point for creating the project databases and tables, then spinning the server in watch mode.
 
-  - ```"test_db_up": "db-migrate up --e test"```   
-  Runs the up migrations to the test database
-
-  - ```"test_db_reset": "db-migrate reset --e test"```   
-  Resets the test database
-
-  - ```"jasmine_ts": "jasmine-ts src/tests/**/*[sS]pec.ts"```   
-  Runs jasmine unit & integration tests
-
-  - ```"test": "set ENV=test&& npm run test_db_reset && npm run test_db_up && npm run jasmine_ts && npm run test_db_reset"```   
-  Sets the environment to test, resets the test database, runs its up migrations, starts jasmine testing, then resets the test database again
-
-  - ```"create_dbs": "npx ts-node src/utils/create_dbs.ts"```  
+  - ```create_dbs: "npx ts-node src/utils/create_dbs.ts"```  
   Create the dev & test databases programmatically.
 
-  - ```"drop_dbs": "npx ts-node src/utils/drop_dbs.ts"```  
+  - ```drop_dbs: "npx ts-node src/utils/drop_dbs.ts"```  
   Drop both PSQL databases, dev & test for a clean slate!
 
-  - ```"lint": "eslint 'src/**/*.ts'"```  
+  - ```watch: "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\""```   
+  Transpiles the .ts files in the src folder, then runs the server.js, watches the .ts files for any change, then restarts the server reflecting the new changes.
+
+  - ```test_short: "ENV=test db-migrate --env test up && jasmine-ts && db-migrate db:drop test"```  
+  Runs the up migrations for the PSQL test_db, then runs the jasmine unit tests. Finally it deletes the test_db.
+
+  - ```test: "npm run create_dbs && npm run test_short"```   
+  Creates the PSQL testing and development dbs first, then runs the above script.
+
+  - ```build: "npx tsc"```  
+  This builds the JS in the ./dist folder
+
+  - ```lint: "eslint 'src/**/*.ts'"```  
   Check the development code using lint 
   
-  - ```"lint_fix": "eslint --fix 'src/**/*.ts'"```  
+  - ```lint:fix: "eslint --fix 'src/**/*.ts'"```  
   Check and fix the code using lint
   
-  - ```"prettier": "prettier --config .prettierrc --write src/**/*.ts"```  
+  - ```prettier: "prettier --config .prettierrc --write src/**/*.ts"```  
   Runs prettier for code formatting
   
-  - ```"checkrules": "npx eslint-config-prettier"```  
+  - ```checkrulesnpx eslint-config-prettier"```  
   Checks for conflicting rules between lint and prettier.
 
 ## Usage
@@ -80,7 +71,7 @@ TOKEN_SECRET=
 
 Then run the package.json script called `first_run` to create the project databases and tables, then spin the server in watch mode.
 
-If needed the entire project can be reset by: running the `drop_dbs` script, deleting the `./dist` folder, then running the `first_run` script.
+If needed the entire project can be reset by running the `drop_dbs` script, deleting the `./dist` folder, then running the `first_run` script.
 
 Once the server is up the API can be accessed via the routes descriped in the [REQUIREMENTS.md](REQUIREMENTS.md) e.g. [GET] [http://localhost:3000/products](http://localhost:3000/products)
 

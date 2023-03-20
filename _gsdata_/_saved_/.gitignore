@@ -1,8 +1,5 @@
 .vscode/
 
-# db-migrate configuration file
-database.json
-
 # Logs
 logs
 *.log

@@ -1,32 +1,16 @@
 {
   "dev": {
     "driver": "pg",
-    "host": {
-      "ENV": "POSTGRES_HOST"
-    },
-    "database": {
-      "ENV": "PG_STORE_DB"
-    },
-    "user": {
-      "ENV": "PG_ROOT_USER"
-    },
-    "password": {
-      "ENV": "PG_ROOT_PASS"
-    }
+    "host": "127.0.0.1",
+    "database": "store_db",
+    "user": "store_admin",
+    "password": "password123"
   },
   "test": {
     "driver": "pg",
-    "host": {
-      "ENV": "POSTGRES_HOST"
-    },
-    "database": {
-      "ENV": "POSTGREST_TEST_DB"
-    },
-    "user": {
-      "ENV": "PG_ROOT_USER"
-    },
-    "password": {
-      "ENV": "PG_ROOT_PASS"
-    }
+    "host": "127.0.0.1",
+    "database": "store_test_db",
+    "user": "store_admin",
+    "password": "password123"
   }
 }

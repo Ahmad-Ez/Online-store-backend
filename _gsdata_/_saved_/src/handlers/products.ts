@@ -6,6 +6,8 @@ const store = new ProductClass();
 
 // get all items
 const index = async (_req: Request, res: Response) => {
+  console.log('index invoked');
+
   const products = await store.index();
   res.json(products);
 };

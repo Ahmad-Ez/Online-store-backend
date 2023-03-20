@@ -35,6 +35,7 @@ const drop_dev_db = async (client: Pool) => {
 
     return true;
   } catch (err) {
+    // (await client.connect()).release()
     console.error(`Could not delete database ${pg_store_db}. Error: ${err}`);
     return false;
   }
@@ -50,6 +51,7 @@ const drop_test_db = async (client: Pool) => {
 
     return true;
   } catch (err) {
+    // (await client.connect()).release();
     console.error(`Could not delete database ${pg_store_test_db}. Error: ${err}`);
     return false;
   }
@@ -65,12 +67,15 @@ const delete_user = async (client: Pool) => {
     DROP ROLE ${pg_store_user};`;
 
     await conn.query(sql_query);
+    // await conn.query(`REASSIGN OWNED BY ${pg_store_user} TO ${pg_root_user}`);
+    // await conn.query(`DROP ROLE ${pg_store_user}`);
 
     conn.release();
     return true;
   } catch (err) {
     console.error(`Could not delete user ${pg_store_user}. Error: ${err}`);
     (await client.connect()).release();
+    // root_client.end()
     return false;
   }
 };
@@ -95,6 +100,7 @@ const drop_dbs = async () => {
   });
 
   await root_client.end();
+  //   .then(async () => { console.log('finished3') });
 };
 
 drop_dbs().then(async () => {

@@ -16,6 +16,7 @@ const index = async (_req: Request, res: Response) => {
 
 // show single user based on its id
 const show = async (req: Request, res: Response) => {
+  console.log('token verified');
   const user = await store.show(req.params.username);
   res.json(user);
 };

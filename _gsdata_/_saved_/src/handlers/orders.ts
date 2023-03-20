@@ -41,7 +41,7 @@ const remove_order = async (req: Request, res: Response) => {
 const add_product = async (req: Request, res: Response) => {
   try {
     const order_product: OrderProduct = {
-      order_id: req.body.order_id,
+      order_id: req.params.id,
       product_id: req.body.product_id,
       quantity: req.body.quantity,
     };
@@ -65,7 +65,7 @@ const orderRoutes = (app: express.Application) => {
   app.get('/orders/:id', verifyAuthToken, show);
   app.post('/orders', verifyAuthToken, create);
   app.delete('/orders', verifyAuthToken, remove_order);
-  app.post('/order_product', verifyAuthToken, add_product); // removed the s from orders to avoid confusion with show route
+  app.post('/order/:id/products', verifyAuthToken, add_product); // removed the s from orders to avoid confusion with show route
   app.delete('/order_product', verifyAuthToken, remove_product);
 };
 

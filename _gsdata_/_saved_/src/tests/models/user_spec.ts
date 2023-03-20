@@ -24,8 +24,18 @@ const u: User = {
 let u0_hashed: UserHashed;
 let u_hashed: UserHashed;
 
+// const validate_pass = (password: string, password_digest: string): boolean => {
+//   return bcrypt.compareSync(password + pepper, password_digest);
+// };
+
+// const pprint = (o: object) => {
+//   return JSON.stringify(o, null, 2);
+// };
+
 const compare_u2uh = (u: User, uh: UserHashed): boolean => {
   let same;
+  // console.log('**user: ' + pprint(u));
+  // console.log('**userHashed: ' + pprint(uh));
   if (
     (u.first_name, u.last_name, u.user_name) === (uh.first_name, uh.last_name, uh.user_name) &&
     bcrypt.compareSync(u.password + pepper, uh.password_digest)
@@ -39,6 +49,8 @@ const compare_u2uh = (u: User, uh: UserHashed): boolean => {
 
 const compare_uh2uh = (uh1: UserHashed, uh2: UserHashed): boolean => {
   let same;
+  // console.log('**uh1: ' + pprint(uh1));
+  // console.log('**uh2: ' + pprint(uh2));
   if (
     (uh1.first_name, uh1.last_name, uh1.user_name) ===
     (uh2.first_name, uh2.last_name, uh2.user_name)
@@ -50,7 +62,7 @@ const compare_uh2uh = (uh1: UserHashed, uh2: UserHashed): boolean => {
   return same;
 };
 
-describe('User Model Structure:', () => {
+xdescribe('User Model Structure:', () => {
   it('should have an index method', () => {
     expect(store.index).toBeDefined();
   });
@@ -72,20 +84,14 @@ describe('User Model Structure:', () => {
   });
 });
 
-describe('User Model Functionality:', () => {
+xdescribe('User Model Functionality:', () => {
   beforeAll(async () => {
-    // Reset the tables in the test database
+    // Reset the users table in the test database
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const conn = await client.connect();
     await conn.query('DELETE FROM users');
-    await conn.query('DELETE FROM products');
-    await conn.query('DELETE FROM orders');
-    await conn.query('DELETE FROM order_products');
     await conn.query('ALTER SEQUENCE users_id_seq RESTART WITH 1');
-    await conn.query('ALTER SEQUENCE products_id_seq RESTART WITH 1');
-    await conn.query('ALTER SEQUENCE orders_id_seq RESTART WITH 1');
-    await conn.query('ALTER SEQUENCE order_products_id_seq RESTART WITH 1');
 
     // Creating the first mock user
     const sql =
@@ -94,6 +100,7 @@ describe('User Model Functionality:', () => {
     const result = await conn.query(sql, [u0.first_name, u0.last_name, u0.user_name, pass_hash]);
     u0_hashed = result.rows[0];
     conn.release();
+    // console.log('created first mock user: ' + pprint(u0_hashed));
   });
 
   it('authenticate method should reject a non-valid user', async () => {

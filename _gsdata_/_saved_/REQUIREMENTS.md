@@ -4,12 +4,6 @@ The company stakeholders want to create an online storefront to showcase their g
 These are the notes from a meeting with the frontend developer that describe what endpoints the API needs to supply, as well as data shapes the frontend and backend have agreed meet the requirements of the application. 
 
 ## API Endpoints
-#### Users
-- Index [token required]: `/users` [GET]
-- Show (args: user id)[token required]: `/users/:username` [GET]
-- Create [token required]: `/users` [POST]
-- Delete [token required]: `/users` [DELET]
-
 #### Products
 - Index: `/products` [GET]
 - Show (args: product id): `/products/id/:id` [GET]
@@ -17,12 +11,18 @@ These are the notes from a meeting with the frontend developer that describe wha
 - Delete [token required]: `/products` [DELETE]
 - Products by category (args: product category): `/products/cat/:category` [GET]
 
+#### Users
+- Index [token required]: `/users` [GET]
+- Show (args: user id)[token required]: `/users/:id` [GET]
+- Create [token required]: `/users` [POST]
+- Delete [token required]: `/users` [DELET]
+
 #### Orders
 - Index [token required]: `/orders` [GET]
 - Show (args: order id)[token required]: `/orders/:id` [GET]
 - Create [token required]: `/orders` [POST]
 - Delete [token required]: `/orders` [DELETE]
-- add_product [token required]: `/order_product` [POST]
+- add_product [token required]: `/orders/:id/products` [POST]
 - remove_product [token required]: `/order_product` [DELETE]
 
 #### Custom Queries
@@ -31,25 +31,25 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## Data Shapes
 #### Product
-- id: bigint SERIAL PRIMARY KEY
+- id: VARCHAR
 - product_name: VARCHAR
-- price: decimal(10,3)
+- price: integer
 - category: VARCHAR
 
 #### User
-- id: bigint SERIAL PRIMARY KEY
+- id: VARCHAR
 - first_name: VARCHAR(100)
 - last_name: VARCHAR(100)
 - user_name (unique for each user): VARCHAR(100)
 - password: VARCHAR
 
 #### Orders
-- id: bigint SERIAL PRIMARY KEY
+- id: VARCHAR
+- user_id: string [foreign key to users table(id)]
 - status (active or complete): VARCHAR(15)
-- user_id: bigint [foreign key to users table(id)]
 
 #### Order_products
-- id: bigint SERIAL PRIMARY KEY
-- order_id: bigint [foreign key to orders table(id)]
-- product_id: bigint [foreign key to products table(id)]
+- id: VARCHAR
+- order_id: string [foreign key to orders table(id)]
+- product_id: string [foreign key to products table(id)]
 - quantity (of each product in the order): integer

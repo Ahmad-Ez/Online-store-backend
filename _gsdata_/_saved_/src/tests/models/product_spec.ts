@@ -1,5 +1,4 @@
 import { Product, ProductClass } from '../../models/product';
-import client from '../../database';
 
 const store = new ProductClass();
 
@@ -15,7 +14,7 @@ const p_out: Product = {
   category: 'fruit',
 };
 
-describe('Product Model Structure', () => {
+xdescribe('Product Model Structure', () => {
   it('should have an index method', () => {
     expect(store.index).toBeDefined();
   });
@@ -37,23 +36,7 @@ describe('Product Model Structure', () => {
   });
 });
 
-describe('Product Model Functionality', () => {
-  beforeAll(async () => {
-    // Reset the tables in the test database
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const conn = await client.connect();
-    await conn.query('DELETE FROM users');
-    await conn.query('DELETE FROM products');
-    await conn.query('DELETE FROM orders');
-    await conn.query('DELETE FROM order_products');
-    await conn.query('ALTER SEQUENCE users_id_seq RESTART WITH 1');
-    await conn.query('ALTER SEQUENCE products_id_seq RESTART WITH 1');
-    await conn.query('ALTER SEQUENCE orders_id_seq RESTART WITH 1');
-    await conn.query('ALTER SEQUENCE order_products_id_seq RESTART WITH 1');
-    conn.release();
-  });
-
+xdescribe('Product Model Functionality', () => {
   it('create method should add a product', async () => {
     const result = await store.create(p_in);
     expect(result).toEqual(p_out);

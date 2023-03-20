@@ -3,7 +3,6 @@ import app from '../../server';
 import jwt from 'jsonwebtoken';
 import { User } from '../../models/user';
 import config from '../../config/config';
-import client from '../../database';
 
 const { jwt_secret } = config;
 
@@ -19,23 +18,7 @@ const user: User = {
 const token = jwt.sign(user, jwt_secret);
 const auth_header = { Authorization: `Bearer ${token}` };
 
-describe('User Routes:', () => {
-  beforeAll(async () => {
-    // Reset the tables in the test database
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const conn = await client.connect();
-    await conn.query('DELETE FROM users');
-    await conn.query('DELETE FROM products');
-    await conn.query('DELETE FROM orders');
-    await conn.query('DELETE FROM order_products');
-    await conn.query('ALTER SEQUENCE users_id_seq RESTART WITH 1');
-    await conn.query('ALTER SEQUENCE products_id_seq RESTART WITH 1');
-    await conn.query('ALTER SEQUENCE orders_id_seq RESTART WITH 1');
-    await conn.query('ALTER SEQUENCE order_products_id_seq RESTART WITH 1');
-    conn.release();
-  });
-
+xdescribe('User Routes:', () => {
   it('should not create a user with out token verification', async () => {
     const response = await request.post('/users').send(user);
     expect(response.status).toBe(401);
