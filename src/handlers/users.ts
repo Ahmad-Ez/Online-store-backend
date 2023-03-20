@@ -10,14 +10,24 @@ const store = new UserClass();
 
 // get all users
 const index = async (_req: Request, res: Response) => {
-  const users = await store.index();
-  res.json(users);
+  try {
+    const users = await store.index();
+    res.json(users);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 // show single user based on its id
 const show = async (req: Request, res: Response) => {
-  const user = await store.show(req.params.username);
-  res.json(user);
+  try {
+    const user = await store.show(req.params.username);
+    res.json(user);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 // create a new user
@@ -40,8 +50,13 @@ const create = async (req: Request, res: Response) => {
 
 // delete a item given its username
 const remove = async (req: Request, res: Response) => {
-  const deleted = await store.delete(req.body.user_name);
-  res.json(deleted);
+  try {
+    const deleted = await store.delete(req.body.user_name);
+    res.json(deleted);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 // Authenticate a user for an operation requiring restricted access

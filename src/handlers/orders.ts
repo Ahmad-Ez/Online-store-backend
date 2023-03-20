@@ -6,14 +6,24 @@ const store = new OrderClass();
 
 // get all items
 const index = async (_req: Request, res: Response) => {
-  const orders = await store.index();
-  res.json(orders);
+  try {
+    const orders = await store.index();
+    res.json(orders);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 // show single item based on its id
 const show = async (req: Request, res: Response) => {
-  const order = await store.show(parseInt(req.params.id));
-  res.json(order);
+  try {
+    const order = await store.show(parseInt(req.params.id));
+    res.json(order);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 // create a new item
@@ -33,8 +43,13 @@ const create = async (req: Request, res: Response) => {
 
 // delete an item given its id
 const remove_order = async (req: Request, res: Response) => {
-  const deleted = await store.delete(req.body.id);
-  res.json(deleted);
+  try {
+    const deleted = await store.delete(req.body.id);
+    res.json(deleted);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 //add new products to an existing 'active' order
@@ -55,8 +70,13 @@ const add_product = async (req: Request, res: Response) => {
 
 // delete a product in an order given its id, created to help in testing
 const remove_product = async (req: Request, res: Response) => {
-  const deleted = await store.remove_product(req.body.id);
-  res.json(deleted);
+  try {
+    const deleted = await store.remove_product(req.body.id);
+    res.json(deleted);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 // routes to operations involving orders

@@ -65,7 +65,6 @@ const delete_user = async (client: Pool) => {
     DROP ROLE ${pg_store_user};`;
 
     await conn.query(sql_query);
-
     conn.release();
     return true;
   } catch (err) {
@@ -97,8 +96,5 @@ const drop_dbs = async () => {
   await root_client.end();
 };
 
-drop_dbs().then(async () => {
-  console.log('finished4');
-});
-
+drop_dbs();
 export default drop_dbs;

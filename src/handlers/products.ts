@@ -6,20 +6,35 @@ const store = new ProductClass();
 
 // get all items
 const index = async (_req: Request, res: Response) => {
-  const products = await store.index();
-  res.json(products);
+  try {
+    const products = await store.index();
+    res.json(products);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 // show single item based on its id
 const show = async (req: Request, res: Response) => {
-  const product = await store.show(parseInt(req.params.id));
-  res.json(product);
+  try {
+    const product = await store.show(parseInt(req.params.id));
+    res.json(product);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 // get all products in a given category
 const show_category = async (req: Request, res: Response) => {
-  const products = await store.show_category(req.params.category);
-  res.json(products);
+  try {
+    const products = await store.show_category(req.params.category);
+    res.json(products);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 // create a new item
@@ -41,8 +56,13 @@ const create = async (req: Request, res: Response) => {
 
 // delete an item given its id
 const remove = async (req: Request, res: Response) => {
-  const deleted = await store.delete(req.body.id);
-  res.json(deleted);
+  try {
+    const deleted = await store.delete(req.body.id);
+    res.json(deleted);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 // routes to operations involving products
