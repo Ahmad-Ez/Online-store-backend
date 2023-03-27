@@ -5,35 +5,35 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## API Endpoints
 #### Users
-- Index [token required]: `/users` [GET]
-- Show (args: user id)[token required]: `/users/:username` [GET]
-- Create [token required]: `/users` [POST]
-- Delete [token required]: `/users` [DELET]
+- Index [token required]: `/api/users` [GET]
+- Show (args: user id)[token required]: `/api/users/:username` [GET]
+- Create [token required]: `/api/users` [POST]
+- Delete [token required]: `/api/users` [DELET]
 
 #### Products
-- Index: `/products` [GET]
-- Show (args: product id): `/products/id/:id` [GET]
-- Create [token required]: `/products` [POST]
-- Delete [token required]: `/products` [DELETE]
-- Products by category (args: product category): `/products/cat/:category` [GET]
+- Index: `/api/products` [GET]
+- Show (args: product id): `/api/products/id/:id` [GET]
+- Create [token required]: `/api/products` [POST]
+- Delete [token required]: `/api/products` [DELETE]
+- Products by category (args: product category): `/api/products/cat/:category` [GET]
 
 #### Orders
-- Index [token required]: `/orders` [GET]
-- Show (args: order id)[token required]: `/orders/:id` [GET]
-- Create [token required]: `/orders` [POST]
-- Delete [token required]: `/orders` [DELETE]
-- add_product [token required]: `/order_product` [POST]
-- remove_product [token required]: `/order_product` [DELETE]
+- Index [token required]: `/api/orders` [GET]
+- Show (args: order id)[token required]: `/api/orders/:id` [GET]
+- Create [token required]: `/api/orders` [POST]
+- Delete [token required]: `/api/orders` [DELETE]
+- add_product [token required]: `/api/orders/product` [POST]
+- remove_product [token required]: `/api/orders/product` [DELETE]
 
 #### Custom Queries
-- Current Order by user (args: user id)[token required]: `/user_active_order/:id` [GET]
-- Completed Orders by user (args: user id)[token required]: `/user_completed_orders/:id` [GET]
+- Current Order by user (args: user id)[token required]: `/api/dashboard/user_active_order/:id` [GET]
+- Completed Orders by user (args: user id)[token required]: `/api/dashboard/user_completed_orders/:id` [GET]
 
 ## Data Shapes
 #### Product
 - id: bigint SERIAL PRIMARY KEY
 - product_name: VARCHAR
-- price: decimal(10,3)
+- price: integer
 - category: VARCHAR
 
 #### User

@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
-import { User, UserClass } from '../models/user';
-import verifyAuthToken from '../utils/auth';
+import { User, UserClass } from '../../models/user';
+import verifyAuthToken from '../../utils/auth';
 import jwt from 'jsonwebtoken';
-import config from '../config/config';
+import config from '../../config/config';
 
 const jwt_secret = config.jwt_secret;
 
@@ -78,11 +78,10 @@ const authenticate = async (req: Request, res: Response) => {
 };
 
 // routes to operations involving users
-const userRoutes = (app: express.Application) => {
-  app.get('/users', verifyAuthToken, index);
-  app.get('/users/:username', verifyAuthToken, show);
-  app.post('/users', verifyAuthToken, create);
-  app.delete('/users', verifyAuthToken, remove);
-};
+const userRoutes = express.Router();
+userRoutes.get('/', verifyAuthToken, index);
+userRoutes.get('/:username', verifyAuthToken, show);
+userRoutes.post('/', verifyAuthToken, create);
+userRoutes.delete('/', verifyAuthToken, remove);
 
 export default userRoutes;

@@ -95,22 +95,22 @@ describe('Dashboard Routes:', () => {
   });
 
   it('should not return the active order for a given user without token verification', async () => {
-    const response = await request.get('/user_active_order/1');
+    const response = await request.get('/api/dashboard/user_active_order/1');
     expect(response.status).toBe(401);
   });
 
   it('should return the active order for a given user via: GET /user_active_order/:id', async () => {
-    const response = await request.get('/user_active_order/1').set(auth_header);
+    const response = await request.get('/api/dashboard/user_active_order/1').set(auth_header);
     expect(response.status).toBe(200);
   });
 
   it('should not return the completed order for a given user without token verification', async () => {
-    const response = await request.get('/user_completed_orders/1');
+    const response = await request.get('/api/dashboard/user_completed_orders/1');
     expect(response.status).toBe(401);
   });
 
   it('should return the completed order for a given user via: GET /user_completed_orders/:id', async () => {
-    const response = await request.get('/user_completed_orders/1').set(auth_header);
+    const response = await request.get('/api/dashboard/user_completed_orders/1').set(auth_header);
     expect(response.status).toBe(200);
   });
 

@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import { Product, ProductClass } from '../models/product';
-import verifyAuthToken from '../utils/auth';
+import { Product, ProductClass } from '../../models/product';
+import verifyAuthToken from '../../utils/auth';
 
 const store = new ProductClass();
 
@@ -66,12 +66,11 @@ const remove = async (req: Request, res: Response) => {
 };
 
 // routes to operations involving products
-const productRoutes = (app: express.Application) => {
-  app.get('/products', index);
-  app.get('/products/id/:id', show); // added the id part to avoid confusion with category route
-  app.get('/products/cat/:category', show_category);
-  app.post('/products', verifyAuthToken, create);
-  app.delete('/products', verifyAuthToken, remove);
-};
+const productRoutes = express.Router();
+productRoutes.get('/', index);
+productRoutes.get('/id/:id', show); // added the id part to avoid confusion with category route
+productRoutes.get('/cat/:category', show_category);
+productRoutes.post('/', verifyAuthToken, create);
+productRoutes.delete('/', verifyAuthToken, remove);
 
 export default productRoutes;

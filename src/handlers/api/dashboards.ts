@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import { DashboardQueries } from '../services/dashboard';
-import verifyAuthToken from '../utils/auth';
+import { DashboardQueries } from '../../services/dashboard';
+import verifyAuthToken from '../../utils/auth';
 
 const dashboard = new DashboardQueries();
 
@@ -27,9 +27,8 @@ const user_completed_orders = async (req: Request, res: Response) => {
 };
 
 // routes to operations involving custom queries
-const dashboardRoutes = (app: express.Application) => {
-  app.get('/user_active_order/:id', verifyAuthToken, user_active_order);
-  app.get('/user_completed_orders/:id', verifyAuthToken, user_completed_orders);
-};
+const dashboardRoutes = express.Router();
+dashboardRoutes.get('/user_active_order/:id', verifyAuthToken, user_active_order);
+dashboardRoutes.get('/user_completed_orders/:id', verifyAuthToken, user_completed_orders);
 
 export default dashboardRoutes;

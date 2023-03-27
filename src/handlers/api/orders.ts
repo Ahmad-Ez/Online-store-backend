@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import { Order, OrderProduct, OrderClass } from '../models/order';
-import verifyAuthToken from '../utils/auth';
+import { Order, OrderProduct, OrderClass } from '../../models/order';
+import verifyAuthToken from '../../utils/auth';
 
 const store = new OrderClass();
 
@@ -80,13 +80,12 @@ const remove_product = async (req: Request, res: Response) => {
 };
 
 // routes to operations involving orders
-const orderRoutes = (app: express.Application) => {
-  app.get('/orders', verifyAuthToken, index);
-  app.get('/orders/:id', verifyAuthToken, show);
-  app.post('/orders', verifyAuthToken, create);
-  app.delete('/orders', verifyAuthToken, remove_order);
-  app.post('/order_product', verifyAuthToken, add_product); // removed the s from orders to avoid confusion with show route
-  app.delete('/order_product', verifyAuthToken, remove_product);
-};
+const orderRoutes = express.Router();
+orderRoutes.get('/', verifyAuthToken, index);
+orderRoutes.get('/id/:id', verifyAuthToken, show);
+orderRoutes.post('/', verifyAuthToken, create);
+orderRoutes.delete('/', verifyAuthToken, remove_order);
+orderRoutes.post('/product', verifyAuthToken, add_product); // removed the s from orders to avoid confusion with show route
+orderRoutes.delete('/product', verifyAuthToken, remove_product);
 
 export default orderRoutes;

@@ -4,12 +4,7 @@ import bodyParser from 'body-parser';
 import 'dotenv/config';
 import morgan from 'morgan';
 import cors from 'cors';
-
-/* importing app routes from handler files */
-import userRoutes from './handlers/users';
-import productRoutes from './handlers/products';
-import orderRoutes from './handlers/orders';
-import dashboardRoutes from './handlers/dashboards';
+import routes from './handlers/routes_index';
 
 /* Express to run server and routes */
 const app: express.Application = express();
@@ -21,17 +16,13 @@ app.use(cors());
 app.use(bodyParser.json());
 // morgan HTTP logger
 app.use(morgan('dev'));
+// connect to the api routes
+app.use('/api', routes);
 
 /* The main GET route */
 app.get(endPoint, (req: Request, res: Response) => {
-  res.send('Server Started..');
+  res.send('Server Started, go to /api');
 });
-
-/* use routes from handler files */
-userRoutes(app);
-productRoutes(app);
-orderRoutes(app);
-dashboardRoutes(app);
 
 // Spin up the server
 app.listen(port, () => {

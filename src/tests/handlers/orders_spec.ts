@@ -93,62 +93,62 @@ describe('Order Routes:', () => {
   });
 
   it('should not create an order without token verification', async () => {
-    const response = await request.post('/orders').send(o);
+    const response = await request.post('/api/orders').send(o);
     expect(response.status).toBe(401);
   });
 
-  it('should create an order via, POST /orders', async () => {
-    const response = await request.post('/orders').send(o).set(auth_header);
+  it('should create an order via, POST /api/orders', async () => {
+    const response = await request.post('/api/orders').send(o).set(auth_header);
     expect(response.status).toBe(200);
   });
 
   it('should not index all orders without token verification', async () => {
-    const response = await request.get('/orders');
+    const response = await request.get('/api/orders');
     expect(response.status).toBe(401);
   });
 
-  it('should index all orders via, GET /orders', async () => {
-    const response = await request.get('/orders').set(auth_header);
+  it('should index all orders via, GET /api/orders', async () => {
+    const response = await request.get('/api/orders').set(auth_header);
     expect(response.status).toBe(200);
   });
 
   it('should not show an order without token verification', async () => {
-    const response = await request.get('/orders/1');
+    const response = await request.get('/api/orders/id/1');
     expect(response.status).toBe(401);
   });
 
-  it('should show an order via, GET /orders/:id', async () => {
-    const response = await request.get('/orders/1').set(auth_header);
+  it('should show an order via, GET /api/orders/:id', async () => {
+    const response = await request.get('/api/orders/id/1').set(auth_header);
     expect(response.status).toBe(200);
   });
 
   it('should not create an order_product without token verification', async () => {
-    const response = await request.post('/order_product').send(op);
+    const response = await request.post('/api/orders/product').send(op);
     expect(response.status).toBe(401);
   });
 
-  it('should create an order_product via, POST /order_product', async () => {
-    const response = await request.post('/order_product').send(op).set(auth_header);
+  it('should create an order_product via, POST /api/orders/product', async () => {
+    const response = await request.post('/api/orders/product').send(op).set(auth_header);
     expect(response.status).toBe(200);
   });
 
   it('should not delete an order_product without token verification', async () => {
-    const response = await request.delete('/order_product').send({ id: 1 });
+    const response = await request.delete('/api/orders/product').send({ id: 1 });
     expect(response.status).toBe(401);
   });
 
-  it('should delete an order_product via, DELETE /orders', async () => {
-    const response = await request.delete('/order_product').send({ id: 1 }).set(auth_header);
+  it('should delete an order_product via, DELETE /api/orders/product', async () => {
+    const response = await request.delete('/api/orders/product').send({ id: 1 }).set(auth_header);
     expect(response.status).toBe(200);
   });
 
   it('should not delete an order without token verification', async () => {
-    const response = await request.delete('/orders').send({ id: 1 });
+    const response = await request.delete('/api/orders').send({ id: 1 });
     expect(response.status).toBe(401);
   });
 
-  it('should delete an order via, DELETE /orders', async () => {
-    const response = await request.delete('/orders').send({ id: 1 }).set(auth_header);
+  it('should delete an order via, DELETE /api/orders', async () => {
+    const response = await request.delete('/api/orders').send({ id: 1 }).set(auth_header);
     expect(response.status).toBe(200);
   });
 

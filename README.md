@@ -82,7 +82,7 @@ Then run the package.json script called `first_run` to create the project databa
 
 If needed the entire project can be reset by: running the `drop_dbs` script, deleting the `./dist` folder, then running the `first_run` script.
 
-Once the server is up the API can be accessed via the routes descriped in the [REQUIREMENTS.md](REQUIREMENTS.md) e.g. [GET] [http://localhost:3000/products](http://localhost:3000/products)
+Once the server is up the API can be accessed via the routes descriped in the [REQUIREMENTS.md](REQUIREMENTS.md) e.g. [GET] [http://localhost:3000/api/products](http://localhost:3000/api/products)
 
 ## Dependencies
 

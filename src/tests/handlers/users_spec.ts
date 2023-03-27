@@ -37,27 +37,27 @@ describe('User Routes:', () => {
   });
 
   it('should not create a user with out token verification', async () => {
-    const response = await request.post('/users').send(user);
+    const response = await request.post('/api/users').send(user);
     expect(response.status).toBe(401);
   });
 
-  it('should create a user via, POST /users', async () => {
-    const response = await request.post('/users').send(user).set(auth_header);
+  it('should create a user via, POST /api/users', async () => {
+    const response = await request.post('/api/users').send(user).set(auth_header);
     expect(response.status).toBe(200);
   });
 
-  it('should index all users via, GET /users', async () => {
-    const response = await request.get('/users').set(auth_header);
+  it('should index all users via, GET /api/users', async () => {
+    const response = await request.get('/api/users').set(auth_header);
     expect(response.status).toBe(200);
   });
 
-  it('should show a user via, GET /users/:id', async () => {
-    const response = await request.get('/users/route_u_name').set(auth_header);
+  it('should show a user via, GET /api/users/:id', async () => {
+    const response = await request.get('/api/users/route_u_name').set(auth_header);
     expect(response.status).toBe(200);
   });
 
-  it('should delete a user via, DELETE /users', async () => {
-    const response = await request.delete('/users').send({ id: 1 }).set(auth_header);
+  it('should delete a user via, DELETE /api/users', async () => {
+    const response = await request.delete('/api/users').send({ id: 1 }).set(auth_header);
     expect(response.status).toBe(200);
   });
 });
