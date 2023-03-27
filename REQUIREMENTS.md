@@ -33,7 +33,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 #### Product
 - id: bigint SERIAL PRIMARY KEY
 - product_name: VARCHAR
-- price: integer
+- price: numeric(10,3)
 - category: VARCHAR
 
 #### User

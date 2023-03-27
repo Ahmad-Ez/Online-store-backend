@@ -2,6 +2,12 @@
 // @ts-ignore
 import client from '../database';
 
+// The following code block is to prevent product price from being returned as string
+import { types } from 'pg';
+types.setTypeParser(types.builtins.NUMERIC, function (val) {
+  return parseFloat(val);
+});
+
 export type Product = {
   id?: number;
   product_name: string;
@@ -66,6 +72,9 @@ export class ProductClass {
       const result = await conn.query(sql, [p.product_name, p.price, p.category]);
       const product = result.rows[0];
       conn.release();
+      console.log(product);
+      console.log(product.price);
+
       return product;
     } catch (err) {
       throw new Error(`Could not add new product ${p.product_name}. Error: ${err}`);

@@ -5,13 +5,13 @@ const store = new ProductClass();
 
 const p_in: Product = {
   product_name: 'pears',
-  price: 10,
+  price: 10.25,
   category: 'fruit',
 };
 const p_out: Product = {
   id: 1,
   product_name: 'pears',
-  price: 10,
+  price: 10.25,
   category: 'fruit',
 };
 
