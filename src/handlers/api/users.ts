@@ -14,7 +14,7 @@ const index = async (_req: Request, res: Response) => {
     const users = await store.index();
     res.json(users);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(err);
   }
 };
@@ -25,7 +25,7 @@ const show = async (req: Request, res: Response) => {
     const user = await store.show(req.params.username);
     res.json(user);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(err);
   }
 };
@@ -43,7 +43,7 @@ const create = async (req: Request, res: Response) => {
     const token = jwt.sign({ user: newUser }, jwt_secret);
     res.json(token);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(<string>err + user);
   }
 };
@@ -54,7 +54,7 @@ const remove = async (req: Request, res: Response) => {
     const deleted = await store.delete(req.body.user_name);
     res.json(deleted);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(err);
   }
 };

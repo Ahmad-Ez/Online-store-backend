@@ -10,7 +10,7 @@ const index = async (_req: Request, res: Response) => {
     const products = await store.index();
     res.json(products);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(err);
   }
 };
@@ -21,7 +21,7 @@ const show = async (req: Request, res: Response) => {
     const product = await store.show(parseInt(req.params.id));
     res.json(product);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(err);
   }
 };
@@ -32,7 +32,7 @@ const show_category = async (req: Request, res: Response) => {
     const products = await store.show_category(req.params.category);
     res.json(products);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(err);
   }
 };
@@ -49,7 +49,7 @@ const create = async (req: Request, res: Response) => {
     const newProduct = await store.create(product);
     res.json(newProduct);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(err);
   }
 };
@@ -60,7 +60,7 @@ const remove = async (req: Request, res: Response) => {
     const deleted = await store.delete(req.body.id);
     res.json(deleted);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(err);
   }
 };

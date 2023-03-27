@@ -10,7 +10,7 @@ const index = async (_req: Request, res: Response) => {
     const orders = await store.index();
     res.json(orders);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(err);
   }
 };
@@ -21,7 +21,7 @@ const show = async (req: Request, res: Response) => {
     const order = await store.show(parseInt(req.params.id));
     res.json(order);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(err);
   }
 };
@@ -36,7 +36,7 @@ const create = async (req: Request, res: Response) => {
     const new_order = await store.create(order);
     res.json(new_order);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(err);
   }
 };
@@ -47,7 +47,7 @@ const remove_order = async (req: Request, res: Response) => {
     const deleted = await store.delete(req.body.id);
     res.json(deleted);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(err);
   }
 };
@@ -63,7 +63,7 @@ const add_product = async (req: Request, res: Response) => {
     const addedProduct = await store.add_product(order_product);
     res.json(addedProduct);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(err);
   }
 };
@@ -74,7 +74,7 @@ const remove_product = async (req: Request, res: Response) => {
     const deleted = await store.remove_product(req.body.id);
     res.json(deleted);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(err);
   }
 };

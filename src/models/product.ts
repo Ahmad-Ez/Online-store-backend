@@ -72,8 +72,6 @@ export class ProductClass {
       const result = await conn.query(sql, [p.product_name, p.price, p.category]);
       const product = result.rows[0];
       conn.release();
-      console.log(product);
-      console.log(product.price);
 
       return product;
     } catch (err) {

@@ -10,7 +10,7 @@ const user_active_order = async (req: Request, res: Response) => {
     const order = await dashboard.user_active_order(parseInt(req.params.id));
     res.json(order);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(err);
   }
 };
@@ -21,7 +21,7 @@ const user_completed_orders = async (req: Request, res: Response) => {
     const order = await dashboard.user_completed_orders(parseInt(req.params.id));
     res.json(order);
   } catch (err) {
-    res.status(400);
+    res.status(500);
     res.json(err);
   }
 };
